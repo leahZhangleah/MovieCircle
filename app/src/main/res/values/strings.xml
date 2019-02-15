@@ -14,4 +14,7 @@ The film is set in 1960s British Hong Kong and was shot on the historical Wing L
     <string name="action_settings">Settings</string>
     <string name="casts_label">Casts</string>
     <string name="comments_label">Comments</string>
+    <string name="api_key">846cd2cdc1ddb950b6f8e90df6261b3a</string>
+    <string name="language">en-US</string>
+    <string name="base_url">https://api.themoviedb.org/3/</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.example.android.moviecircle;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,9 +15,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.example.android.moviecircle.di.DaggerMovieComponent;
+import com.example.android.moviecircle.di.MovieComponent;
+import com.example.android.moviecircle.di.MovieModule;
+import com.example.android.moviecircle.model.SingleMovie;
+import com.example.android.moviecircle.viewmodel.MovieDetailModelFactory;
+import com.example.android.moviecircle.viewmodel.MovieDetailViewModel;
+
+import javax.inject.Inject;
 
 public class MovieDetail extends AppCompatActivity {
-    Menu menu;
+    public static final String MOVIE_ID = "movie_id";
+    public static final int DEFAULT_MOVIE_ID = 581864;
+    private int movieId = DEFAULT_MOVIE_ID;
+    private Menu menu;
+    private ProgressBar loadingIndicator;
+    private CollapsingToolbarLayout toolbarLayout;
+    private ImageView movieImage;
+    private TextView movieOverview;
+    @Inject
+    public MovieDetailModelFactory movieDetailModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +75,28 @@ public class MovieDetail extends AppCompatActivity {
 
             }
         });
-        CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
-        toolbarLayout.setTitle("Echoes of the Rainbow");
+        toolbarLayout = findViewById(R.id.toolbar_layout);
+        movieImage = findViewById(R.id.movie_image);
+        loadingIndicator = findViewById(R.id.loading_indicator);
+        movieOverview = findViewById(R.id.movie_overview);
 
-        ImageView imageView = findViewById(R.id.movie_image);
-        imageView.setImageResource(R.drawable.wandering_earth);
+        if(savedInstanceState == null){
+            Intent intent = getIntent();
+            if(intent != null && intent.getIntExtra(MOVIE_ID,DEFAULT_MOVIE_ID)!= DEFAULT_MOVIE_ID){
+                movieId = intent.getIntExtra(MOVIE_ID,DEFAULT_MOVIE_ID);
+            }
+        }else{
+            movieId = savedInstanceState.getInt(MOVIE_ID,DEFAULT_MOVIE_ID);
+        }
+
+        getMovieById(movieId);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(MOVIE_ID,movieId);
+        super.onSaveInstanceState(outState);
     }
 
     private void hideOption(int id) {
@@ -87,4 +131,81 @@ public class MovieDetail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getMovieById(int movieId){
+        daggerInject(movieId).inject(this);
+        MovieDetailViewModel movieDetailViewModel = ViewModelProviders.of(this,movieDetailModelFactory)
+                .get(MovieDetailViewModel.class);
+        movieDetailViewModel.getMovieLiveData().observe(this, new Observer<Resource>() {
+            @Override
+            public void onChanged(@Nullable Resource resource) {
+                consumeResource(resource);
+            }
+        });
+    }
+
+    private void consumeResource(Resource resource) {
+        switch (resource.status){
+            case LOADING:
+                loadingIndicator.setVisibility(View.VISIBLE);
+                break;
+            case SUCCESS:
+                loadingIndicator.setVisibility(View.INVISIBLE);
+                SingleMovie singleMovie = (SingleMovie) resource.data;
+                consumeSuccessData(singleMovie);
+                break;
+            case ERROR:
+                loadingIndicator.setVisibility(View.INVISIBLE);
+                Toast.makeText(this,resource.message, Toast.LENGTH_SHORT).show();
+                break;
+            case COMPLETE:
+                loadingIndicator.setVisibility(View.INVISIBLE);
+                Toast.makeText(this,"loading data complete", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void consumeSuccessData(SingleMovie singleMovie){
+        if(singleMovie!=null){
+            String title = singleMovie.getTitle();
+            toolbarLayout.setTitle(title);
+            String posterPath = singleMovie.getPosterPath();
+            Glide.with(this).load(posterPath)
+                    .into(movieImage);
+            String overview = singleMovie.getOverview();
+            movieOverview.setText(overview);
+        }
+    }
+
+    private MovieComponent daggerInject(int movieId){
+        return DaggerMovieComponent.builder()
+                .movieModule(new MovieModule(movieId,this))
+                .build();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
