@@ -88,7 +88,6 @@ public class MovieDetail extends AppCompatActivity {
         }else{
             movieId = savedInstanceState.getInt(MOVIE_ID,DEFAULT_MOVIE_ID);
         }
-
         getMovieById(movieId);
 
     }
@@ -133,10 +132,10 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     private void getMovieById(int movieId){
-        daggerInject(movieId).inject(this);
+        daggerInject().inject(this);
         MovieDetailViewModel movieDetailViewModel = ViewModelProviders.of(this,movieDetailModelFactory)
                 .get(MovieDetailViewModel.class);
-        movieDetailViewModel.getMovieLiveData().observe(this, new Observer<Resource>() {
+        movieDetailViewModel.getMovieLiveData(movieId).observe(this, new Observer<Resource>() {
             @Override
             public void onChanged(@Nullable Resource resource) {
                 consumeResource(resource);
@@ -170,18 +169,23 @@ public class MovieDetail extends AppCompatActivity {
             String title = singleMovie.getTitle();
             toolbarLayout.setTitle(title);
             String posterPath = singleMovie.getPosterPath();
-            Glide.with(this).load(posterPath)
+            ImageSizeHelper imageSizeHelper = new ImageSizeHelper(this);
+            String sizeOnTMDB = imageSizeHelper.getPosterSize();
+            String imagePath = getString(R.string.image_base_url)+sizeOnTMDB+posterPath;
+            Glide.with(this).load(imagePath)
                     .into(movieImage);
             String overview = singleMovie.getOverview();
             movieOverview.setText(overview);
         }
     }
 
-    private MovieComponent daggerInject(int movieId){
+    private MovieComponent daggerInject(){
         return DaggerMovieComponent.builder()
-                .movieModule(new MovieModule(movieId,this))
+                .movieModule(new MovieModule(this))
                 .build();
     }
+
+
 }
 
 
