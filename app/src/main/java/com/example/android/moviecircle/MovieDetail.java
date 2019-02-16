@@ -45,6 +45,7 @@ public class MovieDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -147,6 +148,7 @@ public class MovieDetail extends AppCompatActivity {
         switch (resource.status){
             case LOADING:
                 loadingIndicator.setVisibility(View.VISIBLE);
+                Toast.makeText(this,"data is loading", Toast.LENGTH_SHORT).show();
                 break;
             case SUCCESS:
                 loadingIndicator.setVisibility(View.INVISIBLE);
@@ -156,10 +158,6 @@ public class MovieDetail extends AppCompatActivity {
             case ERROR:
                 loadingIndicator.setVisibility(View.INVISIBLE);
                 Toast.makeText(this,resource.message, Toast.LENGTH_SHORT).show();
-                break;
-            case COMPLETE:
-                loadingIndicator.setVisibility(View.INVISIBLE);
-                Toast.makeText(this,"loading data complete", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

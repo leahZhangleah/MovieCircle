@@ -58,6 +58,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/loading_indicator"
         android:layout_gravity="center"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -28,10 +28,6 @@ public class Resource<T> {
         return new Resource<>(Status.LOADING,data,null);
     }
 
-    public static <T> Resource<T> complete(){
-        return new Resource<>(Status.COMPLETE,null,null);
-    }
-
 }
 
 

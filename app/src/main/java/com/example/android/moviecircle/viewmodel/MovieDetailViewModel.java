@@ -9,7 +9,6 @@ import com.example.android.moviecircle.model.SingleMovie;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 public class MovieDetailViewModel extends ViewModel {
@@ -47,11 +46,6 @@ public class MovieDetailViewModel extends ViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         resourceMutableLiveData.setValue(Resource.error(throwable.getMessage(),null));
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        resourceMutableLiveData.setValue(Resource.complete());
                     }
                 });
         compositeDisposable.add(disposable);
