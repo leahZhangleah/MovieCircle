@@ -10,6 +10,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,21 +25,26 @@ import com.bumptech.glide.Glide;
 import com.example.android.moviecircle.di.DaggerMovieComponent;
 import com.example.android.moviecircle.di.MovieComponent;
 import com.example.android.moviecircle.di.MovieModule;
+import com.example.android.moviecircle.model.Credit;
 import com.example.android.moviecircle.model.SingleMovie;
 import com.example.android.moviecircle.viewmodel.MovieDetailModelFactory;
 import com.example.android.moviecircle.viewmodel.MovieDetailViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class MovieDetail extends AppCompatActivity {
     public static final String MOVIE_ID = "movie_id";
-    public static final int DEFAULT_MOVIE_ID = 581864;
+    public static final int DEFAULT_MOVIE_ID = 278;
     private int movieId = DEFAULT_MOVIE_ID;
     private Menu menu;
     private ProgressBar loadingIndicator;
     private CollapsingToolbarLayout toolbarLayout;
     private ImageView movieImage;
     private TextView movieOverview;
+    private RecyclerView movieCasts;
+    private MovieCastAdapter movieCastAdapter;
     @Inject
     public MovieDetailModelFactory movieDetailModelFactory;
 
@@ -45,6 +52,8 @@ public class MovieDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,6 +89,10 @@ public class MovieDetail extends AppCompatActivity {
         movieImage = findViewById(R.id.movie_image);
         loadingIndicator = findViewById(R.id.loading_indicator);
         movieOverview = findViewById(R.id.movie_overview);
+        movieCasts = findViewById(R.id.movie_casts);
+        movieCastAdapter = new MovieCastAdapter(null,this);
+        movieCasts.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        movieCasts.setAdapter(movieCastAdapter);
 
         if(savedInstanceState == null){
             Intent intent = getIntent();
@@ -89,7 +102,7 @@ public class MovieDetail extends AppCompatActivity {
         }else{
             movieId = savedInstanceState.getInt(MOVIE_ID,DEFAULT_MOVIE_ID);
         }
-        getMovieById(movieId);
+        getMovieDetail(movieId);
 
     }
 
@@ -132,17 +145,28 @@ public class MovieDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getMovieById(int movieId){
+    private void getMovieDetail(int movieId){
         daggerInject().inject(this);
         MovieDetailViewModel movieDetailViewModel = ViewModelProviders.of(this,movieDetailModelFactory)
                 .get(MovieDetailViewModel.class);
+        //get movie basic info
         movieDetailViewModel.getMovieLiveData(movieId).observe(this, new Observer<Resource>() {
             @Override
             public void onChanged(@Nullable Resource resource) {
                 consumeResource(resource);
             }
         });
+
+
+        //get movie casts
+        movieDetailViewModel.getCastsLiveData(movieId).observe(this, new Observer<Resource>() {
+            @Override
+            public void onChanged(@Nullable Resource resource) {
+                consumeResource(resource);
+            }
+        });
     }
+
 
     private void consumeResource(Resource resource) {
         switch (resource.status){
@@ -152,8 +176,14 @@ public class MovieDetail extends AppCompatActivity {
                 break;
             case SUCCESS:
                 loadingIndicator.setVisibility(View.INVISIBLE);
-                SingleMovie singleMovie = (SingleMovie) resource.data;
-                consumeSuccessData(singleMovie);
+                if(resource.data instanceof SingleMovie){
+                    SingleMovie singleMovie = (SingleMovie) resource.data;
+                    consumeMovieBasicInfo(singleMovie);
+                }else if(resource.data instanceof List<?> ){
+                    //todo: check more for comments list
+                    List<Credit.Cast> casts = (List<Credit.Cast>) resource.data;
+                    consumeMovieCasts(casts);
+                }
                 break;
             case ERROR:
                 loadingIndicator.setVisibility(View.INVISIBLE);
@@ -162,18 +192,24 @@ public class MovieDetail extends AppCompatActivity {
         }
     }
 
-    private void consumeSuccessData(SingleMovie singleMovie){
+    private void consumeMovieBasicInfo(SingleMovie singleMovie){
         if(singleMovie!=null){
             String title = singleMovie.getTitle();
             toolbarLayout.setTitle(title);
-            String posterPath = singleMovie.getPosterPath();
+            String backdropPath = singleMovie.getBackdropPath();
             ImageSizeHelper imageSizeHelper = new ImageSizeHelper(this);
-            String sizeOnTMDB = imageSizeHelper.getPosterSize();
-            String imagePath = getString(R.string.image_base_url)+sizeOnTMDB+posterPath;
+            String sizeOnTMDB = imageSizeHelper.getMovieImageSize();
+            String imagePath = getString(R.string.image_base_url)+sizeOnTMDB+backdropPath;
             Glide.with(this).load(imagePath)
                     .into(movieImage);
             String overview = singleMovie.getOverview();
             movieOverview.setText(overview);
+        }
+    }
+
+    private void consumeMovieCasts(List<Credit.Cast> casts){
+        if(casts!=null){
+           movieCastAdapter.setCasts(casts);
         }
     }
 

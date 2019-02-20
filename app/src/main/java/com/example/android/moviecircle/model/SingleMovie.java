@@ -11,7 +11,7 @@ public class SingleMovie {
     private Boolean adult;
     @SerializedName("backdrop_path")
     @Expose
-    private Object backdropPath;
+    private String backdropPath;
     @SerializedName("belongs_to_collection")
     @Expose
     private Object belongsToCollection;
@@ -23,7 +23,7 @@ public class SingleMovie {
     private List<Genre> genres = null;
     @SerializedName("homepage")
     @Expose
-    private String homepage;
+    private Object homepage;
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -47,10 +47,10 @@ public class SingleMovie {
     private String posterPath;
     @SerializedName("production_companies")
     @Expose
-    private List<Object> productionCompanies = null;
+    private List<ProductionCompany> productionCompanies = null;
     @SerializedName("production_countries")
     @Expose
-    private List<Object> productionCountries = null;
+    private List<ProductionCountry> productionCountries = null;
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
@@ -77,7 +77,7 @@ public class SingleMovie {
     private Boolean video;
     @SerializedName("vote_average")
     @Expose
-    private Integer voteAverage;
+    private Double voteAverage;
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -90,11 +90,11 @@ public class SingleMovie {
         this.adult = adult;
     }
 
-    public Object getBackdropPath() {
+    public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setBackdropPath(Object backdropPath) {
+    public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
     }
 
@@ -122,11 +122,11 @@ public class SingleMovie {
         this.genres = genres;
     }
 
-    public String getHomepage() {
+    public Object getHomepage() {
         return homepage;
     }
 
-    public void setHomepage(String homepage) {
+    public void setHomepage(Object homepage) {
         this.homepage = homepage;
     }
 
@@ -186,19 +186,19 @@ public class SingleMovie {
         this.posterPath = posterPath;
     }
 
-    public List<Object> getProductionCompanies() {
+    public List<ProductionCompany> getProductionCompanies() {
         return productionCompanies;
     }
 
-    public void setProductionCompanies(List<Object> productionCompanies) {
+    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
         this.productionCompanies = productionCompanies;
     }
 
-    public List<Object> getProductionCountries() {
+    public List<ProductionCountry> getProductionCountries() {
         return productionCountries;
     }
 
-    public void setProductionCountries(List<Object> productionCountries) {
+    public void setProductionCountries(List<ProductionCountry> productionCountries) {
         this.productionCountries = productionCountries;
     }
 
@@ -266,11 +266,11 @@ public class SingleMovie {
         this.video = video;
     }
 
-    public Integer getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -309,7 +309,6 @@ public class SingleMovie {
     }
 
     public class SpokenLanguage {
-
         @SerializedName("iso_639_1")
         @Expose
         private String iso6391;
@@ -332,6 +331,77 @@ public class SingleMovie {
         public void setName(String name) {
             this.name = name;
         }
+    }
 
+    public class ProductionCountry {
+        @SerializedName("iso_3166_1")
+        @Expose
+        private String iso31661;
+        @SerializedName("name")
+        @Expose
+        private String name;
+
+        public String getIso31661() {
+            return iso31661;
+        }
+
+        public void setIso31661(String iso31661) {
+            this.iso31661 = iso31661;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public class ProductionCompany {
+        @SerializedName("id")
+        @Expose
+        private Integer id;
+        @SerializedName("logo_path")
+        @Expose
+        private String logoPath;
+        @SerializedName("name")
+        @Expose
+        private String name;
+        @SerializedName("origin_country")
+        @Expose
+        private String originCountry;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getLogoPath() {
+            return logoPath;
+        }
+
+        public void setLogoPath(String logoPath) {
+            this.logoPath = logoPath;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getOriginCountry() {
+            return originCountry;
+        }
+
+        public void setOriginCountry(String originCountry) {
+            this.originCountry = originCountry;
+        }
     }
 }

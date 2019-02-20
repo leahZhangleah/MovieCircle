@@ -3,6 +3,7 @@ package com.example.android.moviecircle.internet;
 import android.content.Context;
 
 import com.example.android.moviecircle.R;
+import com.example.android.moviecircle.model.Credit;
 import com.example.android.moviecircle.model.SingleMovie;
 
 import io.reactivex.Observable;
@@ -23,6 +24,12 @@ public class NetworkRequest {
 
     public Observable<SingleMovie> getMovieById(int movieId){
         return networkInterface.getMovieById(movieId,API_KEY,LANGUAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public  Observable<Credit> getCastsById(int movieId){
+        return networkInterface.getCastsById(movieId,API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
