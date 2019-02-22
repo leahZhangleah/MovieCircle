@@ -17,10 +17,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/cast_name"
         android:textStyle="bold"
-        tools:text="wandering earth in china is rocking high" />
+        tools:text="wandering earth in china is rocking high"
+        android:breakStrategy="balanced" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cast_character"
-        tools:text="wandering earth in china is rocking high"/>
+        tools:text="wandering earth in china is rocking high"
+        android:breakStrategy="balanced" />
 </LinearLayout>

@@ -31,12 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/comments_label" />
+            android:text="@string/reviews_label" />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/movie_comments"
-            android:orientation="vertical">
+            android:id="@+id/movie_reviews">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

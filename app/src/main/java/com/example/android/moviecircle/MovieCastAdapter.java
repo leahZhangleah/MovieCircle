@@ -11,15 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.moviecircle.model.Credit;
+import com.example.android.moviecircle.model.Credits;
 
 import java.util.List;
 
 public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.CastViewHolder> {
-    List<Credit.Cast> casts;
+    List<Credits.Cast> casts;
     Context context;
 
-    public MovieCastAdapter(List<Credit.Cast> casts, Context context) {
+    public MovieCastAdapter(List<Credits.Cast> casts, Context context) {
         this.casts = casts;
         this.context = context;
     }
@@ -33,7 +33,7 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
 
     @Override
     public void onBindViewHolder(@NonNull CastViewHolder castViewHolder, int i) {
-        Credit.Cast cast = casts.get(i);
+        Credits.Cast cast = casts.get(i);
         if(cast!=null){
             String profilePath = cast.getProfilePath();
             ImageSizeHelper imageSizeHelper = new ImageSizeHelper(context);
@@ -52,16 +52,20 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
 
     }
 
-    public void setCasts(List<Credit.Cast> casts) {
+    public void setCasts(List<Credits.Cast> casts) {
         if(this.casts==null){
             this.casts = casts;
             notifyDataSetChanged();
         }
     }
+    //todo: add "Full Cast & Crew" Button to go to cast and crew activity
 
     @Override
     public int getItemCount() {
         if(casts!=null){
+            if(casts.size() >= 10){
+                return 10;
+            }
             return casts.size();
         }
         return 0;

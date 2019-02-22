@@ -1,7 +1,6 @@
 package com.example.android.moviecircle;
 
 import com.example.android.moviecircle.internet.NetworkRequest;
-import com.example.android.moviecircle.model.Credit;
 import com.example.android.moviecircle.model.SingleMovie;
 
 import io.reactivex.Observable;
@@ -30,20 +29,21 @@ public class MovieRepository {
         return networkRequest.getMovieById(movieId);
     }
 
-    public Observable<Credit> getCastsById(int movieId) {
-        Observable<Credit> fromCache = getCastsByIdFromCache(movieId);
-        Observable<Credit> fromInternet = getCastsByIdFromInternet(movieId);
+    /*
+    public Observable<Credits> getCastsById(int movieId) {
+        Observable<Credits> fromCache = getCastsByIdFromCache(movieId);
+        Observable<Credits> fromInternet = getCastsByIdFromInternet(movieId);
         //Maybe<SingleMovie> singleMovie = Observable.concat(fromCache,fromInternet).firstElement();
         return fromInternet;
     }
 
-    public Observable<Credit> getCastsByIdFromCache(int movieId){
+    public Observable<Credits> getCastsByIdFromCache(int movieId){
         //todo
         return null;
     }
 
-    public  Observable<Credit> getCastsByIdFromInternet(int movieId){
+    public  Observable<Credits> getCastsByIdFromInternet(int movieId){
         return networkRequest.getCastsById(movieId);
-    }
+    }*/
 
 }

@@ -81,6 +81,12 @@ public class SingleMovie {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+    @SerializedName("reviews")
+    @Expose
+    private Reviews reviews;
+    @SerializedName("credits")
+    @Expose
+    private Credits credits;
 
     public Boolean getAdult() {
         return adult;
@@ -280,6 +286,22 @@ public class SingleMovie {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public Reviews getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Reviews reviews) {
+        this.reviews = reviews;
+    }
+
+    public Credits getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Credits credits) {
+        this.credits = credits;
     }
 
     public class Genre {

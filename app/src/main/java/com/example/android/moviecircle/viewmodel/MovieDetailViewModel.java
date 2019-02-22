@@ -5,10 +5,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.android.moviecircle.MovieRepository;
 import com.example.android.moviecircle.Resource;
-import com.example.android.moviecircle.model.Credit;
 import com.example.android.moviecircle.model.SingleMovie;
-
-import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -33,6 +30,7 @@ public class MovieDetailViewModel extends ViewModel {
         return singleMovieMutableLiveData;
     }
 
+    /*
     public MutableLiveData<Resource> getCastsLiveData(int movieId){
         if(castsMutableLiveData==null){
             castsMutableLiveData = new MutableLiveData<>();
@@ -49,10 +47,10 @@ public class MovieDetailViewModel extends ViewModel {
                         castsMutableLiveData.setValue(Resource.loading(null));
                     }
                 })
-                .subscribe(new Consumer<Credit>() {
+                .subscribe(new Consumer<Credits>() {
                     @Override
-                    public void accept(Credit credit) throws Exception {
-                        List<Credit.Cast> casts = credit.getCast();
+                    public void accept(Credits credit) throws Exception {
+                        List<Credits.Cast> casts = credit.getCast();
                         castsMutableLiveData.setValue(Resource.success(casts));
                     }
                 }, new Consumer<Throwable>() {
@@ -62,7 +60,7 @@ public class MovieDetailViewModel extends ViewModel {
                     }
                 });
         compositeDisposable.add(disposable);
-    }
+    }*/
 
     private void fetchMovieById(int movieId){
         Disposable disposable = movieRepository.getMovieById(movieId)

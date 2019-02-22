@@ -25,7 +25,8 @@ import com.bumptech.glide.Glide;
 import com.example.android.moviecircle.di.DaggerMovieComponent;
 import com.example.android.moviecircle.di.MovieComponent;
 import com.example.android.moviecircle.di.MovieModule;
-import com.example.android.moviecircle.model.Credit;
+import com.example.android.moviecircle.model.Credits;
+import com.example.android.moviecircle.model.Reviews;
 import com.example.android.moviecircle.model.SingleMovie;
 import com.example.android.moviecircle.viewmodel.MovieDetailModelFactory;
 import com.example.android.moviecircle.viewmodel.MovieDetailViewModel;
@@ -43,8 +44,10 @@ public class MovieDetail extends AppCompatActivity {
     private CollapsingToolbarLayout toolbarLayout;
     private ImageView movieImage;
     private TextView movieOverview;
-    private RecyclerView movieCasts;
+    private RecyclerView movieCasts,movieReviews;
     private MovieCastAdapter movieCastAdapter;
+    private MovieReviewAdapter movieReviewAdapter;
+
     @Inject
     public MovieDetailModelFactory movieDetailModelFactory;
 
@@ -89,10 +92,25 @@ public class MovieDetail extends AppCompatActivity {
         movieImage = findViewById(R.id.movie_image);
         loadingIndicator = findViewById(R.id.loading_indicator);
         movieOverview = findViewById(R.id.movie_overview);
+
+        //recyclerview for casts
         movieCasts = findViewById(R.id.movie_casts);
         movieCastAdapter = new MovieCastAdapter(null,this);
         movieCasts.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         movieCasts.setAdapter(movieCastAdapter);
+
+
+        //recyclerview for reviews
+        movieReviews = findViewById(R.id.movie_reviews);
+        /*
+        List<Reviews.Result> results = new ArrayList<>();
+        results.add(new Reviews.Result("elshaarawy","very good movie 9.5/10 محمد الشعراوى","5723a329c3a3682e720005db",
+                "https://www.themoviedb.org/review/5723a329c3a3682e720005db"));
+        results.add(new Reviews.Result("John Chard","Some birds aren't meant to be caged.\r\n\r\nThe Shawshank Redemption is",
+                "578193f29251417c28001764","https://www.themoviedb.org/review/578193f29251417c28001764"));*/
+        movieReviewAdapter = new MovieReviewAdapter(null,this);
+        movieReviews.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        movieReviews.setAdapter(movieReviewAdapter);
 
         if(savedInstanceState == null){
             Intent intent = getIntent();
@@ -157,14 +175,14 @@ public class MovieDetail extends AppCompatActivity {
             }
         });
 
-
+        /*
         //get movie casts
         movieDetailViewModel.getCastsLiveData(movieId).observe(this, new Observer<Resource>() {
             @Override
             public void onChanged(@Nullable Resource resource) {
                 consumeResource(resource);
             }
-        });
+        });*/
     }
 
 
@@ -179,11 +197,13 @@ public class MovieDetail extends AppCompatActivity {
                 if(resource.data instanceof SingleMovie){
                     SingleMovie singleMovie = (SingleMovie) resource.data;
                     consumeMovieBasicInfo(singleMovie);
-                }else if(resource.data instanceof List<?> ){
-                    //todo: check more for comments list
-                    List<Credit.Cast> casts = (List<Credit.Cast>) resource.data;
-                    consumeMovieCasts(casts);
                 }
+                /*
+                else if(resource.data instanceof List<?> ){
+                    //todo: check more for comments list
+                    List<Credits.Cast> casts = (List<Credits.Cast>) resource.data;
+                    consumeMovieCasts(casts);
+                }*/
                 break;
             case ERROR:
                 loadingIndicator.setVisibility(View.INVISIBLE);
@@ -194,6 +214,7 @@ public class MovieDetail extends AppCompatActivity {
 
     private void consumeMovieBasicInfo(SingleMovie singleMovie){
         if(singleMovie!=null){
+            //single movie basic info
             String title = singleMovie.getTitle();
             toolbarLayout.setTitle(title);
             String backdropPath = singleMovie.getBackdropPath();
@@ -204,14 +225,20 @@ public class MovieDetail extends AppCompatActivity {
                     .into(movieImage);
             String overview = singleMovie.getOverview();
             movieOverview.setText(overview);
+
+            List<Credits.Cast> casts = singleMovie.getCredits().getCast();
+            if(casts!=null) movieCastAdapter.setCasts(casts);
+            List<Reviews.Result> results = singleMovie.getReviews().getResults();
+            if(results!=null) movieReviewAdapter.setResults(results);
         }
     }
 
-    private void consumeMovieCasts(List<Credit.Cast> casts){
+    /*
+    private void consumeMovieCasts(List<Credits.Cast> casts){
         if(casts!=null){
            movieCastAdapter.setCasts(casts);
         }
-    }
+    }*/
 
     private MovieComponent daggerInject(){
         return DaggerMovieComponent.builder()
