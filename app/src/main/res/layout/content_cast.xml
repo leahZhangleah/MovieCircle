@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp">
+    android:layout_marginRight="4dp">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,11 +17,13 @@
         android:id="@+id/cast_name"
         android:textStyle="bold"
         tools:text="wandering earth in china is rocking high"
-        android:breakStrategy="balanced" />
+        android:breakStrategy="balanced"
+        android:textColor="@android:color/white"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cast_character"
         tools:text="wandering earth in china is rocking high"
-        android:breakStrategy="balanced" />
+        android:breakStrategy="balanced"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

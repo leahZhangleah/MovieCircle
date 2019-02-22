@@ -21,4 +21,5 @@ The film is set in 1960s British Hong Kong and was shot on the historical Wing L
     <string name="append_to_response">credits,reviews</string>
     <string name="read_more">Read More</string>
     <string name="read_less">read less</string>
+    <string name="overview_label">Overview</string>
 </resources>

@@ -5,6 +5,6 @@
         <attr name="textSize" format="dimension"></attr>
         <attr name="icon" format="reference"></attr>
         <attr name="lines" format="integer"></attr>
-        <attr name="text" format="string"></attr>
+        <attr name="text" format="string"></attr>1
     </declare-styleable>
 </resources>
