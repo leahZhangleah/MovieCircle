@@ -2,6 +2,7 @@ package com.example.android.moviecircle.internet;
 
 import android.content.Context;
 
+import com.example.android.moviecircle.PopularMovie;
 import com.example.android.moviecircle.R;
 import com.example.android.moviecircle.model.SingleMovie;
 
@@ -34,4 +35,11 @@ public class NetworkRequest {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }*/
+    public Observable<PopularMovie> getPopularMovieList(){
+        int page = 1;
+        return networkInterface.getPopularMovieList(API_KEY,LANGUAGE,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

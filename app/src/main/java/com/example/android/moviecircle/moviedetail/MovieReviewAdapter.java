@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.moviecircle.R;
 import com.example.android.moviecircle.model.Reviews;
 
 import java.util.List;

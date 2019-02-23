@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import com.example.android.moviecircle.internet.NetworkRequest;
 import com.example.android.moviecircle.model.SingleMovie;

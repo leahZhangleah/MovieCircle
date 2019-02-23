@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -22,14 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.android.moviecircle.R;
 import com.example.android.moviecircle.di.DaggerMovieComponent;
 import com.example.android.moviecircle.di.MovieComponent;
 import com.example.android.moviecircle.di.MovieModule;
 import com.example.android.moviecircle.model.Credits;
 import com.example.android.moviecircle.model.Reviews;
 import com.example.android.moviecircle.model.SingleMovie;
-import com.example.android.moviecircle.viewmodel.MovieDetailModelFactory;
-import com.example.android.moviecircle.viewmodel.MovieDetailViewModel;
+import com.example.android.moviecircle.moviedetail.viewmodel.MovieDetailModelFactory;
+import com.example.android.moviecircle.moviedetail.viewmodel.MovieDetailViewModel;
 
 import java.util.List;
 
@@ -55,8 +56,6 @@ public class MovieDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -219,7 +218,7 @@ public class MovieDetail extends AppCompatActivity {
             toolbarLayout.setTitle(title);
             String backdropPath = singleMovie.getBackdropPath();
             ImageSizeHelper imageSizeHelper = new ImageSizeHelper(this);
-            String sizeOnTMDB = imageSizeHelper.getMovieImageSize();
+            String sizeOnTMDB = imageSizeHelper.getMovieBackdropSize();
             String imagePath = getString(R.string.image_base_url)+sizeOnTMDB+backdropPath;
             Glide.with(this).load(imagePath)
                     .into(movieImage);

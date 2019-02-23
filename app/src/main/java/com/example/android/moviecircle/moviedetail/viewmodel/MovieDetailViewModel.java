@@ -1,10 +1,10 @@
-package com.example.android.moviecircle.viewmodel;
+package com.example.android.moviecircle.moviedetail.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.android.moviecircle.MovieRepository;
-import com.example.android.moviecircle.Resource;
+import com.example.android.moviecircle.moviedetail.MovieRepository;
+import com.example.android.moviecircle.moviedetail.Resource;
 import com.example.android.moviecircle.model.SingleMovie;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -15,7 +15,6 @@ public class MovieDetailViewModel extends ViewModel {
     private MovieRepository movieRepository;
     private CompositeDisposable compositeDisposable;
     private MutableLiveData<Resource> singleMovieMutableLiveData;
-    private MutableLiveData<Resource> castsMutableLiveData;
 
     public MovieDetailViewModel(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;

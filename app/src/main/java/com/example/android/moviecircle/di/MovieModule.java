@@ -2,11 +2,13 @@ package com.example.android.moviecircle.di;
 
 import android.content.Context;
 
-import com.example.android.moviecircle.MovieRepository;
+import com.example.android.moviecircle.MovieListModelFactory;
+import com.example.android.moviecircle.MovieListRepository;
+import com.example.android.moviecircle.moviedetail.MovieRepository;
 import com.example.android.moviecircle.R;
 import com.example.android.moviecircle.internet.NetworkInterface;
 import com.example.android.moviecircle.internet.NetworkRequest;
-import com.example.android.moviecircle.viewmodel.MovieDetailModelFactory;
+import com.example.android.moviecircle.moviedetail.viewmodel.MovieDetailModelFactory;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
@@ -33,6 +35,20 @@ public class MovieModule {
         baseUrl = context.getResources().getString(R.string.base_url);
     }
 
+    //movie list
+    @Provides
+    @Singleton
+    public MovieListModelFactory getMovieListModelFactory(MovieListRepository movieListRepository){
+        return new MovieListModelFactory(movieListRepository);
+    }
+
+    @Provides
+    @Singleton
+    public MovieListRepository getMovieListRepository(NetworkRequest networkRequest){
+        return new MovieListRepository(networkRequest);
+    }
+
+    //movie detail
     @Provides
     @Singleton
     public MovieDetailModelFactory getMovieDetailModelFactory(MovieRepository movieRepository){

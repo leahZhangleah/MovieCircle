@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +29,7 @@ public class ImageSizeHelper {
         return width;
     }
 
-    public String getMovieImageSize(){
+    public String getMovieBackdropSize(){
         int screenWidth = checkDeviceScreenWidth();
         String sizeOnTMDB;
         if(screenWidth <= 320){
@@ -73,6 +73,26 @@ public class ImageSizeHelper {
     }
 
 
+    public String getMoviePosterSize(){
+        int imageWidth = getImageViewWidth();
+        String sizeOnTMDB;
+        if(imageWidth <= 154){
+            sizeOnTMDB = "w92";
+        }else if(imageWidth <= 185){
+            sizeOnTMDB = "w154";
+        } else if(imageWidth <= 342){
+            sizeOnTMDB = "w185";
+        }else if(imageWidth <= 500){
+            sizeOnTMDB = "w342";
+        }else {
+            sizeOnTMDB = "w500";
+        }
+        Log.d(TAG,"poster size is: "+sizeOnTMDB);
+        return sizeOnTMDB;
+    }
+
+
+
     public String getCastProfileSize(){
         int imageWidth = getImageViewWidth();
         String profileSize;
@@ -89,20 +109,19 @@ public class ImageSizeHelper {
         }else{
             profileSize = "h632";
         }*/
-        if(imageWidth <= 45){
+        if(imageWidth <= 92){
             profileSize = "w45";
-        }else if(imageWidth <= 92){
-            profileSize = "w92";
         }else if(imageWidth <= 185){
-            profileSize = "w185";
+            profileSize = "w92";
         }else if(imageWidth <= 300){
+            profileSize = "w185";
+        }else {
             profileSize = "w300";
-        }else{
-            profileSize = "h632";
         }
         Log.d(TAG,"profile size is: "+profileSize);
         return profileSize;
     }
+
 
     public int getImageViewWidth(){
         int screenWidth = checkDeviceScreenWidth();

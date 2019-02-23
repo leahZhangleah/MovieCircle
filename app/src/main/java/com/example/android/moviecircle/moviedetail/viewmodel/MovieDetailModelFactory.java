@@ -1,10 +1,10 @@
-package com.example.android.moviecircle.viewmodel;
+package com.example.android.moviecircle.moviedetail.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.example.android.moviecircle.MovieRepository;
+import com.example.android.moviecircle.moviedetail.MovieRepository;
 
 public class MovieDetailModelFactory extends ViewModelProvider.NewInstanceFactory {
     private MovieRepository movieRepository;

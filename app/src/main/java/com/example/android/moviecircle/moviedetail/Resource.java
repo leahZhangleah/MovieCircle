@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import android.support.annotation.NonNull;
 

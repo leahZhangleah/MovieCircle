@@ -1,6 +1,6 @@
 package com.example.android.moviecircle.internet;
 
-import com.example.android.moviecircle.model.Credits;
+import com.example.android.moviecircle.PopularMovie;
 import com.example.android.moviecircle.model.SingleMovie;
 
 import io.reactivex.Observable;
@@ -13,6 +13,6 @@ public interface NetworkInterface {
     Observable<SingleMovie> getMovieById(@Path("id") int movieId, @Query("api_key")
             String api_key, @Query("language") String language,@Query("append_to_response") String append_to_response);
 
-    @GET("movie/{id}/credits")
-    Observable<Credits> getCastsById(@Path("id") int movieId, @Query("api_key") String api_key);
+    @GET("movie/popular")
+    Observable<PopularMovie> getPopularMovieList(@Query("api_key") String api_key, @Query("language") String language, @Query("page") int page);
 }

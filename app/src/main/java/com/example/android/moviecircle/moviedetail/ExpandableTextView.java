@@ -1,4 +1,4 @@
-package com.example.android.moviecircle;
+package com.example.android.moviecircle.moviedetail;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.android.moviecircle.R;
 
 public class ExpandableTextView extends LinearLayout implements View.OnClickListener {
     private static final String TAG = "ExpandableTextView";
@@ -69,7 +71,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private void init(AttributeSet attributeSet,int defStyleAttr){
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER_HORIZONTAL);
-        TypedArray array = this.getContext().obtainStyledAttributes(attributeSet,R.styleable.ExpandableTextView,defStyleAttr,0);
+        TypedArray array = this.getContext().obtainStyledAttributes(attributeSet, R.styleable.ExpandableTextView,defStyleAttr,0);
         textColor = array.getColor(R.styleable.ExpandableTextView_textColor,DEFAULT_TEXT_COLOR);
         textSize = array.getDimensionPixelOffset(R.styleable.ExpandableTextView_textSize,dp2px(DEFAULT_TEXT_SIZE));
         maxLine = array.getInt(R.styleable.ExpandableTextView_lines,DEFAULT_LINE_NUM);
